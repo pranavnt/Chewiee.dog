@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -13,7 +15,7 @@ import (
 )
 
 func main() {
-	client, err := mongo.NewClient(options.Client().ApplyURI(""))
+	client, err := mongo.NewClient(options.Client().ApplyURI(getConnectionURL()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,4 +34,14 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(databases)
+}
+
+func getConnectionURL() (url string) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	url = os.Getenv("CONNECTION_STRING")
+	return
 }
