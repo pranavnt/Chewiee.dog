@@ -1,25 +1,25 @@
 require("dotenv").config();
 
 const express = require("express");
-const multer = require("multer");
-const port = 5001;
 const app = express();
 
+const multer = require("multer");
 var upload = multer();
+
+const port = 5001;
 
 app.post("/uploadImg", upload.single("img"), function (req, res) {
   const encodedImg = req.file.buffer.toString("base64");
-  const options = {
-    method: "POST",
-    uri: "https://api.imgbb.com/1/upload",
-    form: {
-      key: process.env.IMBB_KEY,
-      image: encodedImg,
-    },
-    json: true,
-  };
 
-  res.json({ hello: options });
+  let api = new ApiClient({
+    token: process.env.IMBB_KEY,
+  });
+
+  const ret = api.upload({ image: encodedImg });
+
+  res.json({
+    ret: ret,
+  });
 });
 
 app.listen(port, () => console.log(`port ${port}`));
