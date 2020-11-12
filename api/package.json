@@ -6,7 +6,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "imgbb": "^1.0.37",
+    "imgbbjs": "^1.0.4",
     "multer": "^1.4.2"
   },
   "scripts": {
